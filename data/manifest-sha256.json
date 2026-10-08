@@ -1,0 +1,20 @@
+{
+  "census/PROVENANCE.json": "e9a5f51278cfbf73d2b2a405fc89fb1c61a448fb733a355a871238cb91dc3de4",
+  "census/README.md": "8545a5c5f603fcb4469e55a45fcc4ccc3ed7c336d7ce3ac64bc58bb566ba1416",
+  "census/group_character_rings.json": "5afd5093b836355e7631f7ad95ba6ad867041fc9c0ef3e60b95f131b07f80c2a",
+  "census/primary3_negative_witnesses.json": "cbcf515c56a0509ccfd40cffac9119586bebf330128a15d283f362d87589565c",
+  "census/rank_at_most_8.json": "e17f4abbcc3d507d0aa4abff2b414c7fb33689053a7d9d4d57a7d49674efe075",
+  "census/regenerate_group_rings.g": "897c00f9d44823f8d719ba93701490a73d93ab4bf2fcac2b8724804f3c54d47e",
+  "census/source/1FrobSimpleIntegral.pdf": "d316ce4f083abac0d712d8264d76ac5f78f81a92ebb32960f921e99b9fa51e0a",
+  "census/source/1FrobSimpleIntegralFusionData.pdf": "cc25cb3b751df14efa38d2fff636e59f80b4e35d7b4334d6df35204f41958251",
+  "census/verify_census.py": "976d2736816bfa828217fe99a5aa940860a90eb5cf67185b853efb885e42a387",
+  "certificates/f210-basis.txt": "640558e17f8e9469001c21861acb338ed3135fd35ee7dd43f201a1d22e05f294",
+  "certificates/f210-lift.txt.gz": "fab860baabdb866c05e61ac939c7bd5cc32dd3d273aed9d7ecce98440f64bd84",
+  "certificates/f210-primitive-basis.txt": "d82f97235c894304f148eea254c8d0c9ea2e230f627bffc1072e4ea8c94ace80",
+  "certificates/small-groups-output.txt": "0af5b6db36a47d17b255d8528a6f3fa55a8bc9b4e2f40ce45b99662a380e5381",
+  "data/f210-equations.json": "96d8eb4ed72d249377ac386fd9c836853893b7a0ff131fff76f673951eb1b938",
+  "data/f210.json": "2493d1ae3079c532952d97ed614b41f04c6aab400698d48a435d4b952f253d59",
+  "data/f660.json": "50910bd31ac55fc9f7a15f9dcbe6c6a5f5724a130c3e20dfb9a6dbeb1466cad7",
+  "data/rank6_one_only.json": "e837f1490e728da6218c7503b29ce3c18d9fdaef927b0cc5c765c3871ae5899e",
+  "data/rank6_zero_only.json": "83493d0063a5286f8183e3c16c028b909d8f6e26662217012dc0c1a146ca265d"
+}

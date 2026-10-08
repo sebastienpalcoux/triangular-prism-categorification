@@ -1,0 +1,47 @@
+{
+  "repository": "https://github.com/sebastienpalcoux/Fusion-Categories",
+  "commit": "06f3a37b086c0591e086a3aed9a9458f4270165f",
+  "retrieved": "2026-10-08",
+  "files": [
+    {
+      "path": "source/1FrobSimpleIntegral.pdf",
+      "source_path": "SimpleIntegralPaper/1FrobSimpleIntegral.pdf",
+      "git_blob_sha1": "67f8384d604bcd3a4759332b0ca4afe4af27e75f",
+      "sha256": "d316ce4f083abac0d712d8264d76ac5f78f81a92ebb32960f921e99b9fa51e0a",
+      "bytes": 101800
+    },
+    {
+      "path": "source/1FrobSimpleIntegralFusionData.pdf",
+      "source_path": "SimpleIntegralPaper/1FrobSimpleIntegralFusionData.pdf",
+      "git_blob_sha1": "b65d76fd21240ec052c328c73d93ca080c886966",
+      "sha256": "cc25cb3b751df14efa38d2fff636e59f80b4e35d7b4334d6df35204f41958251",
+      "bytes": 3438310
+    },
+    {
+      "path": "rank_at_most_8.json",
+      "sha256": "e17f4abbcc3d507d0aa4abff2b414c7fb33689053a7d9d4d57a7d49674efe075",
+      "bytes": 37742
+    },
+    {
+      "path": "primary3_negative_witnesses.json",
+      "sha256": "cbcf515c56a0509ccfd40cffac9119586bebf330128a15d283f362d87589565c",
+      "bytes": 29849
+    },
+    {
+      "path": "group_character_rings.json",
+      "sha256": "5afd5093b836355e7631f7ad95ba6ad867041fc9c0ef3e60b95f131b07f80c2a",
+      "bytes": 3440
+    },
+    {
+      "path": "regenerate_group_rings.g",
+      "sha256": "897c00f9d44823f8d719ba93701490a73d93ab4bf2fcac2b8724804f3c54d47e",
+      "bytes": 860
+    }
+  ],
+  "independent_group_generation": {
+    "system": "GAP",
+    "version": "4.12.1",
+    "script": "regenerate_group_rings.g",
+    "method": "Irr of named groups; exact ScalarProduct of products with irreducible characters"
+  }
+}
