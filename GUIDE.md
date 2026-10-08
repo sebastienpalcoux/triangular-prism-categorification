@@ -118,6 +118,8 @@ For another ring, replace the fusion rules, centers, supports, dimensions and co
 
 The complete, executable specifications in `examples/` are the recommended starting points. Their generated JSON includes variable names, exact rational coefficients, equations, and the checked hypothesis data. Preserve this information with any certificate obtained from the equations. A claimed inconsistency should be accompanied by an exact certificate or another independently checkable mathematical argument. A solution of a localized system alone is not a construction of a fusion category.
 
+The localization proof uses a strictly pivotal realization and compatible symmetric selfduality transports, so its coefficients use the categorical dimensions supplied here. [PIVOTAL_CONVENTIONS.md](PIVOTAL_CONVENTIONS.md) explains the internal pivotal factor in other realizations, the distinction between trace-dual maps and contraction-dual tensors, and the exact scalar regression checks. These conventions do not impose positivity on the generator's dimension input.
+
 Python API:
 
 ```python

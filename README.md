@@ -27,6 +27,8 @@ python3 verify.py
 
 This command uses exact arithmetic in the Python standard library. Its largest input is a 24 MB compressed integer certificate, which allows direct checking of identities that were more expensive to discover. It checks the displayed fusion rules, both F210 localizations and their coupling, the F210 character table and positive-characteristic identities, the F660 witness, the rank-six spectrum examples, and the stated census exclusions. General-purpose implementations also have tests on known categorifiable rings, including a noncommutative group ring and Fibonacci fusion rules.
 
+[PIVOTAL_CONVENTIONS.md](PIVOTAL_CONVENTIONS.md) explains the graphical normalization and its relation to the localization dimensions. Exact pointed-category regression tests check the single internal pivotal factor and the right contraction-dual normalization.
+
 The census-based conclusion concerns nonpointed, unitary, 1-Frobenius, simple integral fusion categories of rank at most eight and Frobenius–Perron dimension at most 20000, up to Grothendieck equivalence. Completeness of the underlying census is an input from the cited classification. See [census/README.md](census/README.md) and its provenance file for the exact checks and the separate argument at dimension 20000.
 
 ## Optional independent regeneration
