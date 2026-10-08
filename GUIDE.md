@@ -2,6 +2,13 @@
 
 The supplement has two purposes: applying the paper's criteria to **new fusion rings**, and verifying its worked applications. All entry points use Python 3.10 or later and the standard library. Run commands from this directory; the scripts also resolve their own frozen inputs when called by absolute path.
 
+| Your goal | Required input beyond the fusion rules | Where to start |
+|---|---|---|
+| Find a zero- or one-spectrum obstruction | None | [Spectrum search](#2-search-the-zero--and-one-spectrum-criteria) |
+| Generate one small localization system | An admissible center and categorical dimensions, specified or symbolic | [Localization](#3-generate-localization-equations) |
+| Test compatibility between localizations | Admissible centers, ordered coupling pairs, and the `compatible_bases` declaration | [Localization and coupling workflow](#from-separate-localizations-to-a-coupled-obstruction) |
+| Check the paper's applications | The frozen inputs and certificates supplied here | [Verification](#4-verify-the-papers-applications) and [certificate scope](#5-scope-of-the-certificates-and-optional-regeneration) |
+
 ## 1. Supply a fusion ring
 
 The basic input is a JSON tensor of nonnegative integers:
@@ -100,6 +107,15 @@ Inconsistency with one chosen numerical dimension character excludes only the co
 
 Couplings use an ordered list such as `"couplings": [[1, 3]]`, together with `"compatible_bases": true`. For a pair `[k,l]`, the centers must be distinct and `l` must belong to both selected supports. The program checks these requirements and generates the stated coupling equation, with its full intersection sum. The declaration records the simultaneous compatible formal basis choice guaranteed under a hypothetical categorification; it does not require a pre-existing categorification or numerical basis data. Numerical solutions computed in independently fixed bases cannot simply be combined without the compatible change of bases. No additional equality between coordinates of different centers is imposed. The example F210 specification exhibits the two centers and coupling used in the paper.
 
+### From separate localizations to a coupled obstruction
+
+1. Select centers satisfying the hypotheses above and choose justified numerical dimensions or leave them symbolic. Choose full systems or the corollary's selected exposed supports according to the subsystem you want to study.
+2. Generate a standalone system by keeping one entry in `centers` and omitting `couplings`. Several entries without couplings generate several local coefficient families with the same dimension data; they do not impose the mixed compatibility equations.
+3. Add the admissible ordered pairs to `couplings` and set `compatible_bases` to `true` to generate the mixed equations in the same run. Retain the separate center-labelled variables. Do not identify or pair independently normalized numerical solutions by their coordinate names.
+4. Check consistency of the resulting necessary system by exact methods. A standalone system may already be inconsistent; if it has solutions, the coupling equations may still exclude them. F210 illustrates this distinction: each separate localization has exactly 14 solutions, whereas the coupled system is inconsistent.
+
+For another ring, replace the fusion rules, centers, supports, dimensions and coupling pairs in the example specifications as appropriate. The F210 solution count and certificate are specific to that application; the generator does not assert the same outcome for new inputs.
+
 The complete, executable specifications in `examples/` are the recommended starting points. Their generated JSON includes variable names, exact rational coefficients, equations, and the checked hypothesis data. Preserve this information with any certificate obtained from the equations. A claimed inconsistency should be accompanied by an exact certificate or another independently checkable mathematical argument. A solution of a localized system alone is not a construction of a fusion category.
 
 Python API:
@@ -151,7 +167,7 @@ The F210 checker first verifies polynomial identities over the integers. The mod
 
 For exceptional positive characteristics, the identity `B^2=36750B` forces the product of basis-character values to vanish in characteristics 2, 3, 5, and 7. The lifting argument in the other characteristics is a mathematical input proved in the manuscript. The checker verifies the specified arithmetic and combinatorial statements; the manuscript proves their implications for categorification.
 
-The census verification concerns the supplied 33 rings under the bounds stated in `census/README.md`. Completeness of the classification and the primary-3 theorem are cited inputs. The broader historical 505-ring census described in the introduction is not a claim that this program independently repeats every enumeration in that census.
+The census verification concerns the supplied 33 rings. The classification consequence is restricted to nonpointed, unitary, 1-Frobenius, simple integral fusion categories of rank at most eight and Frobenius–Perron dimension at most 20000, up to Grothendieck equivalence. Completeness of the enumeration and the primary-3 theorem are cited inputs; `census/README.md` records the source bounds and the manuscript's separate exclusion of dimension 20000. The broader historical 505-ring census described in the introduction is not a claim that this program independently repeats every enumeration in that census.
 
 `optional/regenerate_f210.py` invokes Singular's `liftstd` and writes to `generated-certificates/`. `optional/check_generated.py` checks the resulting identities using exact Python arithmetic. Regeneration may produce a different lifting matrix; the identities are what matters. GAP is used by the optional group-database regeneration scripts. Their recorded versions are listed in the repository README.
 

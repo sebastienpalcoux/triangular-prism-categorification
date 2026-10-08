@@ -4,6 +4,8 @@ Computational material for **Triangular prism equations and categorification**, 
 
 The programs apply the paper's **zero-spectrum, one-spectrum, and localization criteria to user-supplied fusion rings**. F210 and F660 are worked applications. Start with [GUIDE.md](GUIDE.md) for the input format, assumptions, examples, and connection to the manuscript. [CERTIFICATE.md](CERTIFICATE.md) explains the exact characteristic-zero certificate for F210.
 
+For a new ring, the workflow is: search the spectrum criteria using the fusion rules alone; when the localization hypotheses hold, generate small necessary systems with justified or symbolic categorical dimensions; then add the coupling equations for compatible localizations. The last step can produce an obstruction even when the individual local systems have solutions. The guide separates these steps and explains what each output establishes.
+
 ## Apply the criteria to another ring
 
 Use Python 3.10 or later with its standard library. Supply exact fusion coefficients in JSON, with `N[i][j][k]` the coefficient of basis element `k` in the product `i*j`, and unit index `0`.
@@ -25,7 +27,7 @@ python3 verify.py
 
 This command uses exact arithmetic in the Python standard library. Its largest input is a 24 MB compressed integer certificate, which allows direct checking of identities that were more expensive to discover. It checks the displayed fusion rules, both F210 localizations and their coupling, the F210 character table and positive-characteristic identities, the F660 witness, the rank-six spectrum examples, and the stated census exclusions. General-purpose implementations also have tests on known categorifiable rings, including a noncommutative group ring and Fibonacci fusion rules.
 
-The completeness of the underlying census is an input from the cited classification. See [census/README.md](census/README.md) and its provenance file for the precise bounds and the checks performed here.
+The census-based conclusion concerns nonpointed, unitary, 1-Frobenius, simple integral fusion categories of rank at most eight and Frobenius–Perron dimension at most 20000, up to Grothendieck equivalence. Completeness of the underlying census is an input from the cited classification. See [census/README.md](census/README.md) and its provenance file for the exact checks and the separate argument at dimension 20000.
 
 ## Optional independent regeneration
 
