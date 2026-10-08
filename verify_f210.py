@@ -92,6 +92,8 @@ def verify():
     data=json.loads((ROOT/'data/f210-equations.json').read_text())
     equations=verify_elimination(data)
     basis=verify_membership(data,equations)
+    from verify_f210_solutions import verify as verify_solutions
+    verify_solutions(basis)
     result=verify_unit(basis,data['prime'])
     result.update(membership_identities=len(basis),seconds=round(time.monotonic()-start,3))
     print('F210 characteristic zero: PASS',json.dumps(result),flush=True)

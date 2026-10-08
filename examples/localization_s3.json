@@ -1,0 +1,70 @@
+{
+  "description": "Representation ring of S3, full Theorem 6.1 system for its two-dimensional simple object; an exact rational solution is tested.",
+  "fusion_matrices": [
+    [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    [
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    [
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1
+      ]
+    ]
+  ],
+  "localization": {
+    "mode": "full",
+    "categorical_dimensions": [
+      1,
+      1,
+      2
+    ],
+    "centers": [
+      {
+        "k": 2,
+        "odd_witness": 2
+      }
+    ]
+  }
+}

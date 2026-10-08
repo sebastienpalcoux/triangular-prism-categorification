@@ -1,6 +1,6 @@
 # Imported census and exact checks
 
-Run `python census/verify_census.py` from the repository root. Python 3.10 or later is sufficient; no packages, SageMath, or GAP are needed.
+Run `python census/verify_census.py` from the repository root. Verification uses Python 3.10 or later and its standard library.
 
 This directory documents the external enumeration used in the rank-at-most-eight classification consequence. It contains the 33 rings of rank at most eight in the Bruns–Palcoux census, their exact integer fusion matrices and dimension vectors, and exact primary-3 exclusion witnesses for 27 of them.
 

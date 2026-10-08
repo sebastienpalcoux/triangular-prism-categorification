@@ -2,45 +2,46 @@
 
 Computational material for **Triangular prism equations and categorification**, by Zhengwei Liu, Sebastien Palcoux, Yunxiang Ren, and Gert Vercleyen.
 
-Start with [GUIDE.md](GUIDE.md) for the connection between the manuscript and the files. [CERTIFICATE.md](CERTIFICATE.md) explains the characteristic-zero certificate for F210.
+The programs apply the paper's **zero-spectrum, one-spectrum, and localization criteria to user-supplied fusion rings**. F210 and F660 are worked applications. Start with [GUIDE.md](GUIDE.md) for the input format, assumptions, examples, and connection to the manuscript. [CERTIFICATE.md](CERTIFICATE.md) explains the exact characteristic-zero certificate for F210.
 
-## Verify the results
+## Apply the criteria to another ring
 
-Use Python 3.10 or later, without optimization (`-O`):
+Use Python 3.10 or later with its standard library. Supply exact fusion coefficients in JSON, with `N[i][j][k]` the coefficient of basis element `k` in the product `i*j`, and unit index `0`.
+
+```sh
+python3 criteria.py spectrum my-ring.json --criterion both --mode first
+python3 criteria.py localize examples/localization_fibonacci.json --output system.json
+```
+
+The spectrum search accepts noncommutative rings and reports every numerical hypothesis of each returned witness. Localization additionally needs a self-dual center, suitable multiplicity-free support, odd-multiplicity data, and categorical dimensions (specified exactly or left symbolic). The guide explains these choices and how to couple localizations. A spectrum witness is an obstruction; generating localization equations is a first step toward checking their consistency. Absence of an obstruction does not prove categorifiability.
+
+## Verify the paper's applications
+
+Run without Python's optimization flag, since the frozen certificate checks use assertions:
 
 ```sh
 python3 verify.py
 ```
 
-No packages, SageMath, Singular, GAP, network connection, or floating-point arithmetic are required for this command. A clean run with Python 3.12.14 took approximately 7–13 seconds on the verification machine. The largest file is a 24 MB compressed exact integer certificate; it replaces a potentially expensive algebraic search with direct arithmetic checks.
+This command uses exact arithmetic in the Python standard library. Its largest input is a 24 MB compressed integer certificate, which allows direct checking of identities that were more expensive to discover. It checks the displayed fusion rules, both F210 localizations and their coupling, the F210 character table and positive-characteristic identities, the F660 witness, the rank-six spectrum examples, and the stated census exclusions. General-purpose implementations also have tests on known categorifiable rings, including a noncommutative group ring and Fibonacci fusion rules.
 
-The command checks:
-
-- The four displayed fusion tensors, their axioms, and the stated integral dimension vectors.
-- The two localized F210 systems, the rescaling and linear eliminations, 28 exact ideal-membership identities, and the final nonsingularity certificate.
-- The F210 formal codegrees and the ring identities that settle the exceptional positive characteristics.
-- Every hypothesis of the displayed F660 zero-spectrum witness.
-- Exhaustive zero/one-spectrum checks for the two rank-six examples.
-- The 33 supplied census inputs, 27 exact primary-3 obstruction witnesses, and the four remaining group character-ring identifications.
-
-The completeness of the underlying census is imported from the cited classification; the code does not independently repeat that enumeration. See [census/README.md](census/README.md) and its provenance file.
+The completeness of the underlying census is an input from the cited classification. See [census/README.md](census/README.md) and its provenance file for the precise bounds and the checks performed here.
 
 ## Optional independent regeneration
 
-Existing mathematical software is used only to generate certificates or access finite-group databases:
+The checked certificates can also be regenerated using existing mathematical software:
 
 ```sh
-python3 optional/regenerate_f210.py       # requires Singular
-python3 optional/check_generated.py      # checks its output with standard Python
+python3 optional/regenerate_f210.py       # Singular: generate the lifting certificate
+python3 optional/check_generated.py      # Python: verify the regenerated certificate
 
-gap -q optional/check_small_groups.g     # optional exhaustive group check through order 128
-gap -q census/regenerate_group_rings.g   # optional regeneration of four group tensors
+gap -q optional/check_small_groups.g     # group search through order 128
+gap -q optional/check_simple_groups.g    # historical simple-group checks; requires CTblLib
+gap -q census/regenerate_group_rings.g   # regenerate four group tensors
 ```
 
-The F210 generator writes to `generated-certificates/`, keeping the frozen certificate separate. Singular 4.3.2 and GAP 4.12.1 were used in the audit. No SageMath installation is needed. Reimplementing the finite-group databases in Python would add complexity without improving the verification.
+The F210 generator writes to `generated-certificates/`. The recorded regeneration used Singular 4.3.2 and GAP 4.12.1.
 
 ## Conventions and provenance
 
-All indices in the data and code start at **0**, and `0` denotes the unit. The tensor entry `N[i][j][k]` is the coefficient of `b_k` in `b_i b_j`. Thus fusion matrix `N[i]` has row index `j` and column index `k`.
-
-`data/manifest-sha256.json` records hashes of the frozen input data and certificates. Third-party census PDFs retain their original rights; their inclusion and provenance do not assert a new license for them. This repository contains computational material and public source data, not editorial correspondence.
+All indices start at **0**. The fusion matrix `N[i]` has row index `j` and column index `k`. `data/manifest-sha256.json` records hashes of the frozen input data and certificates. Third-party census PDFs retain their original rights; their inclusion and provenance do not assert a new license for them.

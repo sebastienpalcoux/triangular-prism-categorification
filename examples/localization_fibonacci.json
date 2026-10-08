@@ -1,0 +1,35 @@
+{
+  "description": "Fibonacci fusion ring with symbolic categorical dimensions. The tests give an exact solution in Q[t]/(t^2-t-1).",
+  "fusion_matrices": [
+    [
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  ],
+  "localization": {
+    "mode": "full",
+    "categorical_dimensions": null,
+    "centers": [
+      {
+        "k": 1,
+        "odd_witness": 1
+      }
+    ]
+  }
+}

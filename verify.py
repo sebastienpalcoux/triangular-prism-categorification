@@ -5,6 +5,7 @@ from pathlib import Path
 from spectrum import scan
 from verify_localization import verify as verify_localization
 from verify_f210 import verify as verify_f210
+from verify_f210_characters import verify as verify_characters
 ROOT=Path(__file__).resolve().parent
 
 
@@ -96,12 +97,14 @@ def main():
     print('Four fusion tensors and stated dimensions: PASS')
     verify_localization(json.loads((ROOT/'data/f210-equations.json').read_text()),rings['f210'])
     positive_characteristic(rings['f210'])
+    verify_characters(rings['f210'])
     f660_witness(rings['f660'],stars['f660'])
     for name,expected in [('rank6_zero_only',{0:12,1:0}),('rank6_one_only',{0:0,1:96})]:
         result=scan(rings[name]);assert result['witness_count']==expected
         print(name+' exhaustive zero/one-spectrum counts: PASS',expected)
     verify_f210()
     subprocess.run([sys.executable,str(ROOT/'census/verify_census.py')],check=True)
+    subprocess.run([sys.executable,'-B','-S','-m','unittest','discover','-s',str(ROOT/'tests')],check=True)
     print(f'ALL CHECKS PASS ({time.monotonic()-start:.3f} seconds)')
 
 

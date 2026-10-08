@@ -78,6 +78,14 @@ In particular, det(M) is nonzero over the rationals. Its columns express congrue
 
 This argument only needs a finite **spanning set** and the exact ideal-membership identities. It does not assume that G is a reduced Gröbner basis, that the quotient is reduced, or that there are exactly 14 geometric solutions. It also does not use the generally invalid inference that modular inconsistency alone implies characteristic-zero inconsistency.
 
+The paper's additional statement that each separate localization has exactly 14 distinct solutions is verified independently, as explained in Section 6 below. The coupling obstruction above does not depend on that stronger statement.
+
 ## 5. Independent generation and verification
 
 Singular 4.3.2 produced T using its `liftstd` routine; optional regeneration uses that existing implementation. The large integer coefficients are retained in compressed form so that verification is a short, deterministic arithmetic calculation. On the verification machine the F210 checker took about 4–9 seconds with Python 3.12.14. A separate clean execution with site packages disabled also passed.
+
+## 6. Exactly 14 distinct solutions of a single localization
+
+`certificates/f210-solutions.json` gives a univariate polynomial `p(t)` of degree 14, with `t=V6`, and rational-polynomial expressions in `t` for the other nine original coordinates. `verify_f210_solutions.py` checks that `gcd(p,p')=1` and substitutes all ten coordinates into all twelve original equations, obtaining zero modulo `p`. Each of the 14 distinct complex roots therefore gives a solution; they are distinct because the `V6` coordinate is the root itself.
+
+The 14 spanning monomials already certified in Section 3 bound the number of distinct solutions from above. Hence there are exactly 14. This proof checks the univariate parametrization directly; it does not need an assertion that a particular elimination output is a Gröbner basis. The same conclusion applies to the second localization under its explicit relabeling.
