@@ -31,6 +31,14 @@ This command uses exact arithmetic in the Python standard library. Its largest i
 
 The census-based conclusion concerns nonpointed, unitary, 1-Frobenius, simple integral fusion categories of rank at most eight and Frobenius–Perron dimension at most 20000, up to Grothendieck equivalence. Completeness of the underlying census is an input from the cited classification. See [census/README.md](census/README.md) and its provenance file for the exact checks and the separate argument at dimension 20000.
 
+## Near-group motivation
+
+A concrete application of the geometric formulation is Huixuan He, Zhengwei Liu, Fan Lu, Sebastien Palcoux, and Yunxiang Ren, *Triangular prism equations for near-group categories: algebraic solutions and a unitary conjecture*, [arXiv:2610.11652](https://arxiv.org/abs/2610.11652) (2026).
+
+[Remark 2.2](https://arxiv.org/html/2610.11652v1) explains the distinction for finite abelian near-group rules `G+|G|`: the essential TPE identity sums quadratic products of scalar coefficients, while the corresponding Izumi identity sums cubic products. The other sides contain respectively a cubic product and a quadratic product, with explicit boundary or constant terms. With the dimension and quadratic data fixed, the TPE identity and boundary normalization determine the scalar system (Proposition 2.7). In characteristic two, when `|G|` is invertible, it directly yields `beta(2h) = beta(h)^4`. Lemma 2.14 relates the two scalar formulations by an invertible Fourier transform. This illustrates how a geometric presentation can expose useful algebraic structure despite equivalence with the spherical pentagon equations.
+
+The manuscript's introduction and reader's guide identify this application. Its specialized near-group equations are developed in the cited paper; the software here implements the general localization and spectrum criteria described in [GUIDE.md](GUIDE.md).
+
 ## Optional independent regeneration
 
 The checked certificates can also be regenerated using existing mathematical software:

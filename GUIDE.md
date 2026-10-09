@@ -9,6 +9,8 @@ The supplement has two purposes: applying the paper's criteria to **new fusion r
 | Test compatibility between localizations | Admissible centers, ordered coupling pairs, and the `compatible_bases` declaration | [Localization and coupling workflow](#from-separate-localizations-to-a-coupled-obstruction) |
 | Check the paper's applications | The frozen inputs and certificates supplied here | [Verification](#4-verify-the-papers-applications) and [certificate scope](#5-scope-of-the-certificates-and-optional-regeneration) |
 
+For a concrete construction application of the TPE presentation, see the [near-group discussion in the README](README.md#near-group-motivation) and [arXiv:2610.11652, Remark 2.2](https://arxiv.org/html/2610.11652v1). That specialized scalar system uses the extra near-group structure; the general localization generator below still requires its own selfdual support, multiplicity, indicator and dimension hypotheses.
+
 ## 1. Supply a fusion ring
 
 The basic input is a JSON tensor of nonnegative integers:
