@@ -102,6 +102,7 @@ def main():
     for name,expected in [('rank6_zero_only',{0:12,1:0}),('rank6_one_only',{0:0,1:96})]:
         result=scan(rings[name]);assert result['witness_count']==expected
         print(name+' exhaustive zero/one-spectrum counts: PASS',expected)
+    subprocess.run([sys.executable,str(ROOT/'verify_spectrum_rank.py')],check=True)
     verify_f210()
     subprocess.run([sys.executable,str(ROOT/'census/verify_census.py')],check=True)
     subprocess.run([sys.executable,'-B','-S','-m','unittest','discover','-s',str(ROOT/'tests')],check=True)

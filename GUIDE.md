@@ -9,7 +9,7 @@ The supplement has two purposes: applying the paper's criteria to **new fusion r
 | Test compatibility between localizations | Admissible centers, ordered coupling pairs, and the `compatible_bases` declaration | [Localization and coupling workflow](#from-separate-localizations-to-a-coupled-obstruction) |
 | Check the paper's applications | The frozen inputs and certificates supplied here | [Verification](#4-verify-the-papers-applications) and [certificate scope](#5-scope-of-the-certificates-and-optional-regeneration) |
 
-The [near-group paper, Theorem 2.3](https://arxiv.org/html/2610.11652v1), applies TPE to `G+|G|` for finite abelian `G` to derive a variant of Izumi's equations without unitarity, in the spherical setting with trivial Frobenius–Schur indicators and `|G|` invertible in the ground field. Remark 2.2 explains its quadratic-sum form, also used by [Radchenko and Wheeler](https://arxiv.org/abs/2609.21892v2) to construct solutions without TPE terminology. See the [README](README.md#near-group-motivation) for the comparison and characteristic-two consequence. These specialized constructions are external to this software; the localization generator below requires its stated support, multiplicity, indicator and dimension hypotheses.
+The [near-group paper, Theorem 2.3](https://arxiv.org/html/2610.11652v1), applies TPE to `G+|G|` for finite abelian `G` to derive a variant of Izumi's equations without unitarity, in the spherical setting with trivial Frobenius–Schur indicators and `|G|` invertible in the ground field. Remark 2.2 explains its quadratic-sum form, which [Radchenko and Wheeler](https://arxiv.org/abs/2609.21892) use to reach Izumi's subsystem. TPE yields this equation directly from the fusion rules. See the [README](README.md#near-group-motivation) for the comparison and characteristic-two consequence. These specialized constructions are external to this software; the localization generator below requires its stated support, multiplicity, indicator and dimension hypotheses.
 
 ## 1. Supply a fusion ring
 
@@ -54,7 +54,7 @@ python3 criteria.py spectrum data/rank6_one_only.json --criterion one --mode all
 
 Search counts refer to **ordered tuples**, without quotienting by symmetry. Zero-spectrum indices are `(i1,...,i9)`; one-spectrum indices are `(i0,i1,...,i9)`. Every returned detailed witness lists the six required coefficients, all spectrum terms, the opposite coefficient, the alternative dimension sums, and a separate Boolean check of every theorem hypothesis. The output states whether the search was exhaustive; partial counts are not total counts.
 
-A verified witness excludes categorification over every algebraically closed field, by the corresponding theorem in the manuscript. These criteria require neither a pivotal structure nor categorical dimensions. Finding no witness is inconclusive. The exhaustive search has many index choices and can be expensive for large or dense rings; `first` is often the appropriate initial search.
+A verified witness excludes fusion categorification over every field. In a semisimple categorification of an ordinary fusion ring with End(1) = k, rigidity gives dimₖ End(X) = [X ⊗ X* : 1] = 1 for each simple X. Thus the proofs in §6.3 apply even when the field is not algebraically closed. They do not use a pivotal structure, categorical dimensions or pseudo-unitarity. They give no exclusion for general nonsemisimple finite tensor categories. Finding no witness is inconclusive. The exhaustive search has many index choices and can be expensive for large or dense rings; `first` is often the appropriate initial search.
 
 Python API:
 
@@ -120,7 +120,7 @@ For another ring, replace the fusion rules, centers, supports, dimensions and co
 
 The complete, executable specifications in `examples/` are the recommended starting points. Their generated JSON includes variable names, exact rational coefficients, equations, and the checked hypothesis data. Preserve this information with any certificate obtained from the equations. A claimed inconsistency should be accompanied by an exact certificate or another independently checkable mathematical argument. A solution of a localized system alone is not a construction of a fusion category.
 
-The localization proof uses a strictly pivotal realization and compatible symmetric selfduality transports, so its coefficients use the categorical dimensions supplied here. [PIVOTAL_CONVENTIONS.md](PIVOTAL_CONVENTIONS.md) explains the internal pivotal factor in other realizations, the distinction between trace-dual maps and contraction-dual tensors, and the exact scalar regression checks. These conventions do not impose positivity on the generator's dimension input.
+The localization proof uses a strictly pivotal realization and compatible choices of self-duality maps. Its coefficients use the supplied categorical dimensions. The general triangular prism equation retains the pivotal morphisms introduced by changes of edge orientation or marked corner. See [PIVOTAL_CONVENTIONS.md](PIVOTAL_CONVENTIONS.md) for the trace and evaluation pairings, the categorical dimension in the PE–TPE change of variables, and the scope of the pointed tests.
 
 Python API:
 
@@ -149,7 +149,8 @@ Run without `-O`, which disables assertion-based certificate checks. A clean run
 | Exactly 14 distinct solutions of each separate F210 localization | `certificates/f210-solutions.json` | `verify_f210_solutions.py`: squarefree degree-14 parameter polynomial, exact coordinate substitution, and the certified upper bound |
 | F210 character table and dual-Burnside property | `data/f210.json` | `verify_f210_characters.py`: exact cyclotomic arithmetic checks all character products, codegrees, and zero entries |
 | F210 in exceptional positive characteristics | `data/f210.json` | Exact identities `B=175R`, `R^2=210R`, `B^2=36750B` |
-| F660 over any algebraically closed field | `data/f660.json` | Every numerical hypothesis of the displayed zero-spectrum witness |
+| F660 over every field | `data/f660.json` | Every numerical hypothesis of the displayed zero-spectrum witness |
+| Least rank detected by either spectrum criterion, and by both | `verify_spectrum_rank.py` | Finite proof check for ranks ≤3 and direct witnesses for a rank-four ring (§6.3) |
 | Independence of the two spectrum criteria | `data/rank6_zero_only.json`, `data/rank6_one_only.json` | Exhaustive admissible-tuple searches, without symmetry identifications |
 | Census-based unitary classification | `census/` | Exact primary-3 witnesses and group-ring basis maps |
 | Frobenius–Schur counterexamples and bounded group search | `optional/check_small_groups.g`, `certificates/small-groups-output.txt` | Optional GAP search through order 128 |
@@ -159,6 +160,7 @@ Expected numerical results:
 
 - F210 character codegrees, in displayed column order: `210,6,7,7,7,5,5`.
 - F660 displayed witness: `(i1,...,i9)=(1,3,4,1,1,3,4,2,2)`. The six required coefficients are all 1; the eight spectrum terms vanish; the two alternative-sum triples are `(5,1,8)` and `(1,8,5)`.
+- The small-rank verifier checks 1, 3 and 50 associative truncated self-dual tables in ranks one, two and three, respectively, together with the non-self-dual ring of the cyclic group of order three. None gives a witness. The rank-four ring F₃,₂₀ has twelve witnesses for each criterion. The script prints the displayed tuples and checks the complete counts. See [the lower-bound proof and the rank-four witnesses](SPECTRUM_RANK.md).
 - `rank6_zero_only`: 12 zero-spectrum witnesses and no one-spectrum witness.
 - `rank6_one_only`: no zero-spectrum witness and 96 one-spectrum witnesses.
 - F210 coupling certificate: 28 identities, 14 spanning monomials per localization, matrix size 196, determinant residue 85 modulo 101.
@@ -169,9 +171,9 @@ Expected numerical results:
 
 The F210 checker first verifies polynomial identities over the integers. The modular determinant calculation then proves that a specified **rational matrix** is nonsingular, with all denominators controlled at the prime 101. This is not an inference of characteristic-zero inconsistency from a modular Gröbner basis. See [CERTIFICATE.md](CERTIFICATE.md) for the complete argument.
 
-For exceptional positive characteristics, the identity `B^2=36750B` forces the product of basis-character values to vanish in characteristics 2, 3, 5, and 7. The lifting argument in the other characteristics is a mathematical input proved in the manuscript. The checker verifies the specified arithmetic and combinatorial statements; the manuscript proves their implications for categorification.
+In characteristics 2, 3, 5 and 7 the regular element R has nonzero unit coefficient and R² = 210R = 0, so the commutative scalar extension is not semisimple. The identity B² = 36750B gives χ(B) = 0 for any character with values in a field of one of those characteristics. As B is the product of the six nonunit basis elements, at least one of their character values vanishes. The lifting argument in the other characteristics is a mathematical input proved in the manuscript. The checker verifies the specified arithmetic and combinatorial statements; the manuscript proves their implications for categorification.
 
-The census verification concerns the supplied 33 rings. The classification consequence is restricted to nonpointed, unitary, 1-Frobenius, simple integral fusion categories of rank at most eight and Frobenius–Perron dimension at most 20000, up to Grothendieck equivalence. Completeness of the enumeration and the primary-3 theorem are cited inputs; `census/README.md` records the source bounds and the manuscript's separate exclusion of dimension 20000. The broader historical 505-ring census described in the introduction is not a claim that this program independently repeats every enumeration in that census.
+The census verification concerns the supplied 33 rings. The classification consequence is restricted to nonpointed, unitary, 1-Frobenius, simple integral fusion categories of rank at most eight and Frobenius–Perron dimension at most 20000, up to Grothendieck equivalence. Completeness of the enumeration and the primary-3 theorem are cited inputs; `census/README.md` records the source bounds and the general solvability argument covering the endpoint 20000. The broader historical 505-ring census described in the introduction is not a claim that this program independently repeats every enumeration in that census.
 
 `optional/regenerate_f210.py` invokes Singular's `liftstd` and writes to `generated-certificates/`. `optional/check_generated.py` checks the resulting identities using exact Python arithmetic. Regeneration may produce a different lifting matrix; the identities are what matters. GAP is used by the optional group-database regeneration scripts. Their recorded versions are listed in the repository README.
 

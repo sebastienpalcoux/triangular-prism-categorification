@@ -135,8 +135,8 @@ def scan(N, criterion='both', mode='count', *, validate=True):
             'obstruction_found': any(counts.values()),
             'spectrum_cache_entries': spectrum.cache_info().currsize,
             'exhaustive': exhaustive, 'witness_count_is_complete': exhaustive,
-            'interpretation': ('A verified witness excludes categorification over every algebraically closed field. '
-                               'No witness does not establish categorifiability.')}
+            'interpretation': ('A verified witness excludes fusion categorification over every field. '
+                               'The test uses semisimplicity. Failure to find a witness does not establish categorifiability.')}
 
 
 if __name__ == '__main__':

@@ -1,67 +1,31 @@
-# Pivotal factors and contraction-dual normalization
+# Pivotal conventions in the triangular prism equations
 
-This note explains the normalization used in the manuscript's graphical prism equations and the PE–TPE correspondence. The categorical proofs are in Sections 4–6; the finite scalar regression tests described below complement those proofs.
+## The dimension on the interior edge
 
-## A single pivotal coupon
+In the general pivotal equation of §4.2, the factor on a simple interior edge labelled by `X` is its categorical dimension `d_X`. The pivotal maps appearing within the tetrahedral coefficients are actual morphisms. In the general spherical equation of §4.3, reversing the middle edge trades an evaluation of one orientation for the opposite evaluation composed with the pivotal map on `X*`. The external corner changes, including the displayed applications of `σ⁻²`, are part of the same equation. Extracting a scalar sign from one of these morphisms without changing the evaluation convention would change the coefficient.
 
-In a realization with `X** = X` on objects and `a_X² = id_X`, a simple object has `a_X = epsilon_X id_X`, where `epsilon_X² = 1`. These assumptions do not imply that the pivotal structure is the identity, or that double duality is the identity on morphisms.
+The simplified triangular prism equation uses a strictly pivotal realization, with `a_X = id_X` and double duality the identity on objects **and** morphisms. Pivotal equivalence preserves traces, dimensions and indicators. The dimension on the interior edge remains `d_X`. A self-dual simple object still requires a chosen isomorphism to its dual when the calculation identifies their labels.
 
-The general prism equation contains both the categorical dimension `d_X` and a single pivotal coupon on an internal `X*` strand. In this realization that coupon contributes `epsilon_X`. After it is extracted from the tetrahedral contraction, the weight is therefore
+## The pairing used in §5.2
 
-```text
-D_X = epsilon_X d_X.
-```
+For a basis vector `μ: A ⊗ B → C`, its trace-dual is the map `q_μ: C → A ⊗ B` characterized by `tr(ν ∘ q_μ) = δ(ν,μ)` on the chosen basis. In the strictly pivotal realization, the bent tensor
 
-The assumption `a_X² = id_X` removes pairs of pivotal coupons, not this single coupon. The graphical spherical and simplified prism formulas retain this weight. The general equation, before these object identifications, retains the actual pivotal morphism.
+    (q_μ ⊗ id_{C*}) ∘ coev_C : 1 → A ⊗ B ⊗ C*
 
-For example, take complex `C2`-graded vector spaces with ordinary left duality and pivotal character `chi(g) = -1`. Then `d_g = -1` and `epsilon_g = -1`, while every ordinary evaluation and coevaluation of the chosen homogeneous lines has coefficient `1`. With prism edge labels
+is dual to the bent basis for the evaluation pairing. If `Z = C ⊗ B* ⊗ A*`, the bent basis vectors are maps from the unit to `Z`, and their partners are maps from the unit to `Z*`. The categorical dual of a bent basis vector instead has type `Z* → 1`.
 
-```text
-X1 = X2 = X3 = X7 = X8 = X9 = 1,
-X4 = X5 = X6 = g,
-```
+Schur's lemma in the coefficient extraction gives `F = d_i T`, where `i` is the simple object at the right intermediate edge of that associator coefficient. In the two routes of the pentagon the common factors are `d_{i_1} d_{i_6}`. Their cancellation leaves `d_{i_0}` inside the sum over the interior simple object. The localization generator uses these categorical dimensions, specified exactly or left symbolic. Neither strictification nor trace duality imposes positivity.
 
-and unit vertex coefficients, the two-tetrahedron side is `1`. The unique internal object on the three-tetrahedron side is `g`; the weight `epsilon_g d_g = 1` gives the same value. The weight `d_g` alone would give `-1`.
+## What the pointed tests check
 
-## Trace-dual maps and invariant dual tensors
-
-Let `mu: A tensor B -> C` have trace-dual `q: C -> A tensor B`, so `tr(nu q) = delta(nu,mu)`. Set `Z = C tensor B* tensor A*`. In the same object realization, the **right** invariant-dual tensor is
-
-```text
-'tilde(mu) = (q a_C tensor id_C*) coev_C.
-```
-
-The order of the pairing matters:
-
-```text
-b_(Z*) (tilde(nu), 'tilde(mu))
-  = tr(a_C^(-1) nu q a_C)
-  = tr(nu q).
-```
-
-The last equality uses cyclicity. The left dual for `b_Z`, with the arguments in the opposite order, instead uses `(a_(A tensor B) q tensor id_C*) coev_C`. No equality between these two expressions is presumed when double duality acts nontrivially on morphisms.
-
-For a simple output, write `qbar = q a_C`, and let `tau_C` denote closure using left duality without a pivotal coupon. Then `tau_C = epsilon_C tr_C`. Coefficient extraction in the manuscript consequently gives `F = D_i6 T`, and substitution in the five pentagon factors leaves the internal weight `D_i0`. This agrees with the graphical prism formula.
-
-In the sign example with `A = 1`, `B = C = g` and `mu = 1`, the trace-dual map has coefficient `q = -1`; multiplication by `a_C` makes the right invariant-dual coefficient `+1`. The worked example in Section 5 tracks this normalization and the subsequent corner coupons separately.
-
-## Why the localization generator still uses categorical dimensions
-
-Localization is performed in an equivalent **strictly pivotal realization**, where every `epsilon_i = 1` and hence `D_i = d_i`. This preserves the categorical dimensions; it does not assert that they are positive. Selfduality is handled separately: the localization hypotheses imply indicator one for the relevant simple objects, permitting symmetric isomorphisms `kappa_i: X_i -> X_i*`. Cups, caps, incident vertex morphisms and their contraction-dual bases are transported through the same choices. Coupled localizations use one common collection of these choices.
-
-Thus the general localization equations and their implementation continue to use the specified or symbolic **categorical dimensions**. Strictification alone does not identify a simple object literally with its chosen dual, and selfduality up to isomorphism alone does not identify `epsilon_i` with its Frobenius–Schur indicator.
-
-## Exact finite regression checks
-
-`tests/test_pivotal_conventions.py` uses only Python's standard library. It checks:
-
-- all 16 admissible `C2` prism labellings, with unequal exact rational vertex and internal-basis coefficients: the retained pivotal factor gives equality in every case, while omitting it fails in exactly 8 cases;
-- right invariant-dual normalization in all four `C2` fusion channels with three different nonzero rational basis coefficients.
-
-Run these checks with the complete verification command `python3 verify.py`, or alone with:
+Run the three scalar tests from this directory:
 
 ```sh
 python3 -B -S -m unittest discover -s tests -p test_pivotal_conventions.py -v
 ```
 
-These are concrete scalar controls for the stated pointed category, not a general implementation or proof of graphical categorical calculus.
+They use complex `C2`-graded vector spaces, with ordinary left duality and the pivotal character `χ(g) = −1`. Thus the odd line has categorical dimension `−1`. This skeletal coordinate choice has nonidentity pivotal map on the odd line. The formulas in §5.2 for an already strictly pivotal realization cannot be applied to these bare ordinary cups without transporting the other data.
+
+- For each of the 16 assignments of degrees to the four factors of a pentagon, the test obtains `F` as the ratio of two products of chosen fusion-basis coefficients in the trivial associator. Converting each coefficient to `T = F/d_i` gives equality with the single interior factor `d_{i_0}`. Omitting that factor fails for exactly the eight assignments with odd interior label. This checks the dimension cancellation in coordinates; it does not independently derive the graphical change of basis.
+- The cap test uses the two orientations of evaluation. Their coefficients on a homogeneous line of degree `j` are `1` and `χ(j)` in these coordinates. It checks the local edge reversal of §4.3 after composing with the pivotal map, including the case `χ(j) = −1`.
+- For each pair of input degrees and three nonzero vertex coefficients, the last test compares the ordinary evaluation pairing with the pivotal trace. In these skeletal scalar coordinates the trace-dual has coefficient `1/(χ(c) μ)`, and its partner for bare evaluation has coefficient `1/μ`, where `c` is the output degree. The tests concern one pointed category and particular coordinates. The general statements are proved in the manuscript.
