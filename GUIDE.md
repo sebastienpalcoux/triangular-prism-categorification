@@ -144,23 +144,28 @@ Run without `-O`, which disables assertion-based certificate checks. A clean run
 | Mathematical claim | Inputs and certificate | Verification |
 |---|---|---|
 | F210 fusion rules and dimensions | `data/f210.json` | Fusion axioms and dimension character |
-| Localized F210 systems | `data/f210-equations.json` | `verify_localization.py`: all 27 corollary instances give exactly the 12 nonzero equations up to nonzero rational scaling, for each localization |
-| F210 in characteristic zero | `certificates/f210-basis.txt`, `certificates/f210-lift.txt.gz` | `verify_f210.py`: three linear eliminations; 28 integer ideal-membership identities; 14 spanning monomials; determinant 85 modulo 101 for the 196-by-196 coupling matrix |
+| Localized F210 systems (Corollary 6.2 and Theorem 6.4, applied in §7.1) | `data/f210-equations.json` | `verify_localization.py`: all 27 corollary instances give exactly the 12 nonzero equations up to nonzero rational scaling, for each localization |
+| F210 in characteristic zero (Theorem 7.2) | `certificates/f210-basis.txt`, `certificates/f210-lift.txt.gz` | `verify_f210.py`: three linear eliminations; 28 integer ideal-membership identities; 14 spanning monomials; determinant 85 modulo 101 for the 196-by-196 coupling matrix |
 | Exactly 14 distinct solutions of each separate F210 localization | `certificates/f210-solutions.json` | `verify_f210_solutions.py`: squarefree degree-14 parameter polynomial, exact coordinate substitution, and the certified upper bound |
 | F210 character table and dual-Burnside property | `data/f210.json` | `verify_f210_characters.py`: exact cyclotomic arithmetic checks all character products, codegrees, and zero entries |
-| F210 in exceptional positive characteristics | `data/f210.json` | Exact identities `B=175R`, `R^2=210R`, `B^2=36750B` |
-| F660 over every field | `data/f660.json` | Every numerical hypothesis of the displayed zero-spectrum witness |
-| Least rank detected by either spectrum criterion, and by both | `verify_spectrum_rank.py` | Finite proof check for ranks ≤3 and direct witnesses for a rank-four ring (§6.3) |
-| Independence of the two spectrum criteria | `data/rank6_zero_only.json`, `data/rank6_one_only.json` | Exhaustive admissible-tuple searches, without symmetry identifications |
-| Census-based unitary classification | `census/` | Exact primary-3 witnesses and group-ring basis maps |
-| Frobenius–Schur counterexamples and bounded group search | `optional/check_small_groups.g`, `certificates/small-groups-output.txt` | Optional GAP search through order 128 |
+| F210 in exceptional positive characteristics (Corollary 7.5 and Proposition 7.6) | `data/f210.json` | Exact identities `B=175R`, `R^2=210R`, `B^2=36750B` |
+| F660 over every field (Theorem 7.9) | `data/f660.json` | Every numerical hypothesis of the displayed zero-spectrum witness |
+| Least rank detected by either spectrum criterion, and by both (Proposition 6.10) | `verify_spectrum_rank.py` | Finite proof check for ranks ≤3 and direct witnesses for a rank-four ring (§6.3) |
+| Independence of the two spectrum criteria (Proposition 6.9) | `data/rank6_zero_only.json`, `data/rank6_one_only.json` | Exhaustive admissible-tuple searches, without symmetry identifications |
+| Census-based unitary classification (Theorem 1.2) | `census/` | Exact primary-3 witnesses and group-ring basis maps |
+| Order-72 example in Remark 3.6 | `verify_psu32.py` | Enumerates all affine permutations of the nine points; checks character norms, indicators +1 and −1, and multiplicity 2 |
+| Bounded search in Remark 3.6 | `optional/check_small_groups.g`, `certificates/small-groups-output.txt` | Optional GAP search through order 128 |
 | Smallest finite simple-group counterexample | `optional/check_simple_groups.g`, `certificates/simple-groups-output.txt` | Optional GAP character-table checks for all 34 nonabelian simple groups of order at most 126000; the only counterexample is PSU(3,5) |
+
+For the group example alone, run `python3 -S verify_psu32.py`. The degree-eight character is the nine-point permutation character minus the trivial character. The degree-two character comes from the quaternion quotient. Wang gives this example and the multiplicity in [§§2–3](https://yilongwang11.github.io/notes/On-the-positivity-conjecture.pdf). It is also the case `p = 3` of [Martínez, Theorem A](https://doi.org/10.4171/RSMUP/79). The minimal-order conclusion uses the wider GAP search recorded above.
+
+**Index conventions.** Propositions 6.9 and 6.10 number their basis elements from 1. Subtract 1 from each tuple entry before calling `evaluate_witness`. The displayed F660 tuple in Theorem 7.9 already uses the Python convention.
 
 Expected numerical results:
 
 - F210 character codegrees, in displayed column order: `210,6,7,7,7,5,5`.
 - F660 displayed witness: `(i1,...,i9)=(1,3,4,1,1,3,4,2,2)`. The six required coefficients are all 1; the eight spectrum terms vanish; the two alternative-sum triples are `(5,1,8)` and `(1,8,5)`.
-- The small-rank verifier checks 1, 3 and 50 associative truncated self-dual tables in ranks one, two and three, respectively, together with the non-self-dual ring of the cyclic group of order three. None gives a witness. The rank-four ring F₃,₂₀ has twelve witnesses for each criterion. The script prints the displayed tuples and checks the complete counts. See [the lower-bound proof and the rank-four witnesses](SPECTRUM_RANK.md).
+- The small-rank verifier checks 1, 3 and 50 associative truncated self-dual tables in ranks one, two and three, respectively, together with the non-self-dual ring of the cyclic group of order three. None gives a witness. The rank-four fusion ring in Proposition 6.10 has twelve witnesses for each criterion. The script prints the displayed tuples and checks the complete counts. See [the lower-bound proof and the rank-four witnesses](SPECTRUM_RANK.md).
 - `rank6_zero_only`: 12 zero-spectrum witnesses and no one-spectrum witness.
 - `rank6_one_only`: no zero-spectrum witness and 96 one-spectrum witnesses.
 - F210 coupling certificate: 28 identities, 14 spanning monomials per localization, matrix size 196, determinant residue 85 modulo 101.

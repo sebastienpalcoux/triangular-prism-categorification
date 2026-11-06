@@ -66,7 +66,7 @@ def main():
     counts = scan(rules)['witness_count']
     if counts != {0: 12, 1: 12}:
         raise RuntimeError(counts)
-    print('F_{3,20}: 12 zero spectrum and 12 one spectrum witnesses.')
+    print('Rank-four fusion ring: 12 zero-spectrum and 12 one-spectrum witnesses.')
 
 
 if __name__ == '__main__':

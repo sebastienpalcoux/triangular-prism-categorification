@@ -39,7 +39,7 @@ If $O=0$, symmetry of $t$ and positivity of $k,\ell$ force $a=b=c=X$ with $m=0$,
 
 ## A rank-four witness for each criterion
 
-The multiplication table of $F_{3,20}$ in the basis $(1,x,y,z)$ is
+In Proposition 6.10 the four basis elements are numbered from 1 to 4. In the verifier they are numbered from 0 to 3. In either order, write them as $(1,x,y,z)$. Their products are
 
 | Product | Value | Product | Value |
 |---|---|---|---|
