@@ -5,6 +5,7 @@ from pathlib import Path
 from spectrum import scan
 from verify_localization import verify as verify_localization
 from verify_f210 import verify as verify_f210
+from verify_f210_ordered import verify as verify_ordered_pentagons
 from verify_psu32 import verify as verify_psu32
 from verify_f210_characters import verify as verify_characters
 ROOT=Path(__file__).resolve().parent
@@ -97,6 +98,7 @@ def main():
     stars={name:ring_checks(N,dimensions.get(name))for name,N in rings.items()}
     print('Four fusion tensors and stated dimensions: PASS')
     verify_localization(json.loads((ROOT/'data/f210-equations.json').read_text()),rings['f210'])
+    verify_ordered_pentagons(rings['f210'])
     verify_psu32()
     positive_characteristic(rings['f210'])
     verify_characters(rings['f210'])

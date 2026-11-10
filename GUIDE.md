@@ -144,6 +144,7 @@ Run without `-O`, which disables assertion-based certificate checks. A clean run
 | Mathematical claim | Inputs and certificate | Verification |
 |---|---|---|
 | F210 fusion rules and dimensions | `data/f210.json` | Fusion axioms and dimension character |
+| Local equations before using tetrahedral rotations (Theorem 7.2) | `data/f210.json` | [`verify_f210_ordered.py`](verify_f210_ordered.py) enumerates the same prisms in the marked tetrahedral and ordered associator presentations. |
 | Localized F210 systems (Corollary 6.2 and Theorem 6.4, applied in §7.1) | `data/f210-equations.json` | `verify_localization.py`: all 27 corollary instances give exactly the 12 nonzero equations up to nonzero rational scaling, for each localization |
 | F210 in characteristic zero (Theorem 7.2) | `certificates/f210-basis.txt`, `certificates/f210-lift.txt.gz` | `verify_f210.py`: three linear eliminations; 28 integer ideal-membership identities; 14 spanning monomials; determinant 85 modulo 101 for the 196-by-196 coupling matrix |
 | Exactly 14 distinct solutions of each separate F210 localization | `certificates/f210-solutions.json` | `verify_f210_solutions.py`: squarefree degree-14 parameter polynomial, exact coordinate substitution, and the certified upper bound |
@@ -156,6 +157,20 @@ Run without `-O`, which disables assertion-based certificate checks. A clean run
 | Order-72 example in Remark 3.6 | `verify_psu32.py` | Enumerates all affine permutations of the nine points; checks character norms, indicators +1 and −1, and multiplicity 2 |
 | Bounded search in Remark 3.6 | `optional/check_small_groups.g`, `certificates/small-groups-output.txt` | Optional GAP search through order 128 |
 | Smallest finite simple-group counterexample | `optional/check_simple_groups.g`, `certificates/simple-groups-output.txt` | Optional GAP character-table checks for all 34 nonabelian simple groups of order at most 126000; the only counterexample is PSU(3,5) |
+
+To reproduce the counts before tetrahedral rotations, run `python3 -S verify_f210_ordered.py`. At either center the same three prism families on nine ordered pairs yield 27 indexed instances and 22 distinct ordered prism labellings.
+
+| Presentation for one center | Different coefficients | Distinct nonzero equations |
+|---|---:|---:|
+| Arrowed tetrahedra with corners as in Theorem 4.23 | 55 | 19 |
+| Unarrowed tetrahedra with corners as in the proof of Theorem 6.1 | 46 | 16 |
+| Ordered associator entries, before unit normalization | 58 | 22 |
+| Ordered associator entries, with unit inputs normalized | 45 | 19 |
+| Localized variables used in Theorem 7.2 | 10 | 12 |
+
+The direct tetrahedral counts keep unit-containing tetrahedra formal and use the printed order of the six edges and the marked corner at each vertex. The left- and right-hand contractions have different corner patterns. With arrows, the two factors on the left also have different edge orientations. In the unarrowed convention of Theorem 6.1 the two left factors use the same pattern. One may fix paired vectors in the one-dimensional fusion spaces at these vertices. No tetrahedron is rotated, reflected, or identified by permuting its edge labels in either count. Only identical symbols and repeated polynomial equations are collected.
+
+For the ordered associators, Theorem 5.3 identifies the same 27 input prisms with pentagons in fixed fusion bases. In the unit-normalized computation, each associator with the tensor unit among its three inputs is the identity. The fusion spaces encountered here have dimension one, so these entries become 1. This leaves 24 nonzero indexed equations, of which 19 are distinct. The final localization also uses unit and fusion evaluations and the paired contractions defining its variables.
 
 For the group example alone, run `python3 -S verify_psu32.py`. The degree-eight character is the nine-point permutation character minus the trivial character. The degree-two character comes from the quaternion quotient. Wang gives this example and the multiplicity in [§§2–3](https://yilongwang11.github.io/notes/On-the-positivity-conjecture.pdf). It is also the case `p = 3` of [Martínez, Theorem A](https://doi.org/10.4171/RSMUP/79). The minimal-order conclusion uses the wider GAP search recorded above.
 
