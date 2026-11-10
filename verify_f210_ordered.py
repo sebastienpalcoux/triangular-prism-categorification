@@ -14,13 +14,14 @@ vector in the palindromic order to be its own dual and use cyclic transports
 for the other orders as in the proof of Theorem 6.1. The fixed corner of a
 triple of equal labels is retained. No move of a marked corner, rotation
 or reflection of a tetrahedron is used to match coefficient keys. Unit-edge
-coefficients are counted. This routine is for these multiplicity-one,
+coefficients may be retained formally or evaluated. This routine is for these multiplicity-one,
 self-dual F210 instances, not for general fusion rings.
 """
 from collections import Counter, defaultdict
 from fractions import Fraction
 from itertools import product
 import json
+from math import isqrt
 from pathlib import Path
 
 UNIT = 0
@@ -41,6 +42,81 @@ MIDDLE_CUT = ((6, 4, 5, 3, 2, 1), (9, 8, 7, 1, 2, 3))
 SIDE_CUT = ((1, 7, 4, 6, 0, 9), (2, 8, 5, 4, 0, 7), (3, 9, 6, 5, 0, 8))
 
 
+# Counterclockwise lists of incident edges, indexed by the other endpoint.
+# A mark is specified by the unique incident edge outside its marked corner.
+# L and R are marked in the exterior face in a middle-cut factor, and in
+# their inner upper faces in a side-cut factor. T and O have identical
+# marked corners in the two types.
+_EDGES = ("LR", "RT", "TL", "LO", "TO", "RO")
+_NEIGHBORS = {"L": "ROT", "R": "TOL", "T": "LOR", "O": "TLR"}
+_OUTSIDE_CORNER = {
+    "middle": {"L": "O", "R": "O", "T": "O", "O": "T"},
+    "side": {"L": "R", "R": "L", "T": "O", "O": "T"},
+}
+
+
+def _unit_value(pattern, edges, dimensions):
+    """Return the squared denominator and the marked theta phase mod 3.
+
+    Suppress the endpoints of any unit edge. Their normalized cups/caps
+    contribute 1/sqrt(d_r*d_s), including the case r or s is the unit.
+    The remaining two vertices form a theta graph. Its normalized evaluation
+    is 1 unless all three edges are the same nonunit label and the two
+    vertices mark different faces. In that case compare the two marked
+    corners on the three theta paths. The choice of positive direction
+    names the cube root; only cancellation of these phases is used.
+    """
+    labels = dict(zip(map(frozenset, _EDGES), edges))
+    values = []
+    for pair, label in zip(_EDGES, edges):
+        if label != 0:
+            continue
+        u, v = pair
+        p, q = (w for w in "LRTO" if w not in pair)
+        r = labels[frozenset((u, p))]
+        t = labels[frozenset((v, p))]
+        if r != labels[frozenset((u, q))] or t != labels[frozenset((v, q))]:
+            raise ValueError("inadmissible unit-edge endpoints")
+        square = dimensions[r] * dimensions[t]
+        phase = 0
+        phase_label = None
+        if r and r == t == labels[frozenset((p, q))]:
+            outside = _OUTSIDE_CORNER["side" if pattern == "side" else "middle"]
+            # Identify the edge at q with the corresponding theta path at p:
+            # the direct connection points to q from p; the other paths
+            # run through u or v, respectively.
+            at_p = outside[p]
+            at_q = q if outside[q] == p else outside[q]
+            ring = _NEIGHBORS[p]
+            phase = (ring.index(at_q) - ring.index(at_p)) % 3
+            if phase:
+                phase_label = r
+        values.append((square, phase_label, phase))
+    if len(set(values)) != 1:
+        raise ValueError("different choices of a unit edge disagree")
+    return values[0]
+
+
+def _coefficient_product(factors, unit_values):
+    """Evaluate unit-edge factors in a single monomial, retaining all others."""
+    keep = []
+    square = Fraction(1)
+    phases = Counter()
+    for key in factors:
+        if key not in unit_values:
+            keep.append(key)
+            continue
+        denominator_squared, label, phase = unit_values[key]
+        square *= denominator_squared
+        phases[label] += phase
+    if any(power % 3 for power in phases.values()):
+        raise ValueError("uncancelled third-indicator phase")
+    n, d = isqrt(square.numerator), isqrt(square.denominator)
+    if n*n != square.numerator or d*d != square.denominator:
+        raise ValueError("a surviving unit coefficient has an irrational square root")
+    return tuple(sorted(keep)), Fraction(d, n)
+
+
 def _polynomial_key(terms):
     """Collect commuting monomials and identify nonzero scalar multiples."""
     nonzero = sorted((monomial, coeff) for monomial, coeff in terms.items() if coeff)
@@ -50,7 +126,7 @@ def _polynomial_key(terms):
     return tuple((monomial, Fraction(coeff, first)) for monomial, coeff in nonzero)
 
 
-def direct_prism_counts(fusion, dimensions, instances, *, arrows=False):
+def direct_prism_counts(fusion, dimensions, instances, *, arrows=False, evaluate_units=False):
     """Count the fixed nine-edge prism instances without tetrahedral symmetry.
 
     The iterable 'instances' contains the nine labels in order X_1,...,X_9,
@@ -59,6 +135,7 @@ def direct_prism_counts(fusion, dimensions, instances, *, arrows=False):
     nine-edge labellings, making the polynomial count auditable.
     """
     scalar_keys = set()
+    unit_values = {}
     equations = defaultdict(set)
     prism_labels = set()
     indexed = 0
@@ -88,18 +165,24 @@ def direct_prism_counts(fusion, dimensions, instances, *, arrows=False):
         # commute, so sort factors in a monomial, never edges within a key.
         def coefficient(pattern, edge_slots, interior=None):
             key = (pattern, tuple(x[j] if j else interior for j in edge_slots))
-            scalar_keys.add(key)
+            if evaluate_units and 0 in key[1]:
+                if key not in unit_values:
+                    unit_values[key] = _unit_value(pattern, key[1], dimensions)
+            else:
+                scalar_keys.add(key)
             return key
 
         terms = Counter()
         if multiplicity(x[3], x[2], x[1]):
             patterns = ("left", "right") if arrows else ("middle", "middle")
             factors = [coefficient(p, t) for p, t in zip(patterns, MIDDLE_CUT)]
-            terms[tuple(sorted(factors))] += 1
+            monomial, weight = _coefficient_product(factors, unit_values)
+            terms[monomial] += weight
         for i, dim in enumerate(dimensions):
             if all(multiplicity(x[j], x[j+3], i) for j in (4, 5, 6)):
                 factors = [coefficient("side", t, i) for t in SIDE_CUT]
-                terms[tuple(sorted(factors))] -= dim
+                monomial, weight = _coefficient_product(factors, unit_values)
+                terms[monomial] -= dim * weight
         key = _polynomial_key(terms)
         if key:
             nonzero_instances += 1
@@ -115,6 +198,9 @@ def direct_prism_counts(fusion, dimensions, instances, *, arrows=False):
         "nonunit_entries_by_pattern": dict(sorted(nonunit_by_pattern.items())),
         "entries": len(scalar_keys),
         "polynomials": len(equations),
+        "evaluated_unit_entries": len(unit_values),
+        "unit_square_phase_counts": sorted(Counter((sq, phase)
+                                           for sq, _, phase in unit_values.values()).items()),
         "coincident_prisms": sorted(tuple(sorted(labels)) for labels in equations.values()
                                     if len(labels) > 1),
     }
@@ -183,6 +269,18 @@ def verify(fusion):
             convention = "arrowed" if arrows else "unarrowed"
             print(f'F210 center {center}, {convention} TPE: {report["entries"]} marked entries, '
                   f'{report["polynomials"]} distinct nonzero equations')
+            reduced = direct_prism_counts(fusion, dimensions, instances, arrows=arrows,
+                                          evaluate_units=True)
+            nonunit = {"left": 6, "right": 6, "side": 14} if arrows else {"middle": 8, "side": 14}
+            assert reduced["entries_by_pattern"] == nonunit, reduced
+            assert reduced["polynomials"] == (13 if arrows else 12), reduced
+            assert reduced["nonzero_instances"] == 22, reduced
+            if not arrows:
+                assert dict(reduced["unit_square_phase_counts"]) == {
+                    (5, 0): 3, (25, 0): 19, (25, 1): 1, (25, 2): 1
+                }, reduced
+            print(f'F210 center {center}, {convention} TPE after unit evaluations: '
+                  f'{reduced["entries"]} marked entries, {reduced["polynomials"]} distinct nonzero equations')
         raw = count(fusion, instances, normalize_unit=False)
         normalized = count(fusion, instances, normalize_unit=True)
         assert raw == (58, 22, 27), raw
