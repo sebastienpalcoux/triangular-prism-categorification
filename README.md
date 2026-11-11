@@ -2,6 +2,8 @@
 
 Computational material for **Triangular prism equations and categorification**, by Zhengwei Liu, Sebastien Palcoux, Yunxiang Ren, and Gert Vercleyen.
 
+The revised manuscript is available as [PDF](manuscript/tpe.pdf) and [TeX](manuscript/tpe.tex), with corrections in bold red. Its supplementary links are pinned to the [verified code revision](https://github.com/sebastienpalcoux/triangular-prism-categorification/tree/f816c697fde088b261e1fe1ce703980e5dbdab51).
+
 The programs apply the paper's **zero-spectrum, one-spectrum, and localization criteria to user-supplied fusion rings**. F210 and F660 are worked applications. Start with [GUIDE.md](GUIDE.md) for the input format, assumptions, examples, and connection to the manuscript. [CERTIFICATE.md](CERTIFICATE.md) explains the exact characteristic-zero certificate for F210.
 
 For a new fusion ring, the workflow is: search the spectrum criteria using the fusion rules alone; when the localization hypotheses hold, generate small necessary systems with justified or symbolic categorical dimensions; then add the coupling equations for compatible localizations. The last step can produce an obstruction even when the individual local systems have solutions. The guide separates these steps and explains what each output establishes.
