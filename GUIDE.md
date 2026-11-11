@@ -35,7 +35,7 @@ Either supply the tensor directly, as in `data/f660.json`, or wrap it in an obje
 }
 ```
 
-Optional `dimensions` supplies a **positive rational dimension character** for an additional consistency check. Use integers or exact rational strings such as `"3/2"`, never floating-point approximations. Omit this field when the Frobenius–Perron dimensions are irrational, as for Fibonacci. It is separate from the categorical dimensions used in localization.
+Optional `dimensions` supplies a **positive rational dimension character** for an additional consistency check. Use integers or exact strings such as `"3"`, never floating-point approximations. A rational simple-object dimension must be an integer, since it is an eigenvalue of an integer fusion matrix. Omit this field when the Frobenius–Perron dimensions are irrational, as for Fibonacci. It is separate from the categorical dimensions used in localization.
 
 Validation establishes the stated ring axioms, not the existence of a categorification.
 
@@ -154,7 +154,7 @@ Run without `-O`, which disables assertion-based certificate checks. A clean run
 | Least rank detected by either spectrum criterion, and by both (Proposition 6.10) | `verify_spectrum_rank.py` | Finite proof check for ranks ≤3 and direct witnesses for a rank-four ring (§6.3) |
 | Independence of the two spectrum criteria (Proposition 6.9) | `data/rank6_zero_only.json`, `data/rank6_one_only.json` | Exhaustive admissible-tuple searches, without symmetry identifications |
 | Census-based unitary classification (Theorem 1.2) | `census/` | Exact primary-3 witnesses and group-ring basis maps |
-| Order-72 example in Remark 3.6 | `verify_psu32.py` | Enumerates all affine permutations of the nine points; checks character norms, indicators +1 and −1, and multiplicity 2 |
+| Order-72 example in Remark 3.6 | `verify_psu32.py` | Enumerates the 72 affine permutations in (C₃)² ⋊ Q₈; checks character norms, indicators +1 and −1, and multiplicity 2 |
 | Bounded search in Remark 3.6 | `optional/check_small_groups.g`, `certificates/small-groups-output.txt` | Optional GAP search through order 128 |
 | Smallest finite simple-group counterexample | `optional/check_simple_groups.g`, `certificates/simple-groups-output.txt` | Optional GAP character-table checks for all 34 nonabelian simple groups of order at most 126000; the only counterexample is PSU(3,5) |
 

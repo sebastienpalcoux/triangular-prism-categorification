@@ -49,7 +49,7 @@ def _normalize(poly):
         return {}
     denominator = lcm(*(Fraction(c).denominator for c in poly.values()))
     integral = {e: int(c*denominator) for e, c in poly.items()}
-    content = reduce(gcd, integral.values())
+    content = reduce(gcd, integral.values(), 0)
     if integral[max(integral, key=order)] < 0:
         content = -content
     return {e: c//content for e, c in integral.items()}

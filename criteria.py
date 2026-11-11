@@ -30,6 +30,16 @@ def main(argv=None):
     localize.add_argument('--singular', type=Path, help='also export the system as a Singular input file')
     args = parser.parse_args(argv)
     try:
+        inputs = [args.input]
+        if getattr(args, 'config', None):
+            inputs.append(args.config)
+        outputs = [path for path in (args.output, getattr(args, 'singular', None))
+                   if path is not None]
+        for index, path in enumerate(outputs):
+            for other in inputs + outputs[:index]:
+                if (path.resolve() == other.resolve() or
+                        (path.exists() and other.exists() and path.samefile(other))):
+                    raise ValueError('Input, configuration and output files must use distinct paths')
         N, metadata = load_fusion_ring(args.input)
         validation = validate_fusion_ring(N, metadata.get('dimensions'))
         if args.command == 'spectrum':
@@ -41,8 +51,6 @@ def main(argv=None):
                 raise ValueError('Provide a localization object in the input or --config SPEC.json')
             result = generate_from_spec(N, spec)
             if args.singular:
-                if args.output and args.output.resolve() == args.singular.resolve():
-                    raise ValueError('--output and --singular must name different files')
                 args.singular.write_text(to_singular(result))
         result['validation'] = validation
         for key in ('name','labels'):

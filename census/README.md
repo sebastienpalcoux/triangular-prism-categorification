@@ -39,6 +39,14 @@ The August 2025 census summary states its rank-dependent Frobenius–Perron dime
 
 The manuscript’s census table begins at rank five. In rank four, Dong–Palcoux–Plessis, *Classification of vanishing fusion rings of rank four*, Theorem 1.7, exclude simple integral 1-Frobenius fusion rings in every dimension. [arXiv:2610.22000](https://arxiv.org/abs/2610.22000)
 
+## Errata in the archived source PDFs
+
+In `source/1FrobSimpleIntegralFusionData.pdf`, page 53, the header for the 48 dimension-3366 tensors gives an incorrect type. The tensors have the dimension vector `(1,11,11,17,17,18,18,18,22,33)`, as correctly stated in the separate summary.
+
+In `source/1FrobSimpleIntegral.pdf`, page 1, the dimension-1260 factorization should read `2^2 * 3^2 * 5 * 7`. Its “following pages” means the separate full-data PDF. The strict/inclusive bound difference is discussed above.
+
+The preliminary list in Liu–Palcoux–Wu contains two rank-eight, dimension-1320 tensors representing the same based ring. Exchanging the two degree-15 basis elements (zero-based indices 5 and 6) carries the second tensor to the first. The present census retains one representative, `S1320_0`.
+
 ## Files
 
 - `rank_at_most_8.json`: all 33 relevant imported inputs, with exact dimension vectors.

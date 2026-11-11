@@ -6,14 +6,21 @@ import re
 def parse(text, names, rational=False):
     """Read the deliberately restricted certificate grammar; never use eval."""
     text=''.join(text.split())
-    if text=='0': return {}
+    number = r'\d+(?:/\d+)?' if rational else r'\d+'
+    factor = rf'(?:{number}|[UV]\d(?:\^\d+)?)'
+    monomial = rf'{factor}(?:\*{factor})*'
+    if re.fullmatch(rf'[+-]?{monomial}(?:[+-]{monomial})*', text) is None:
+        raise ValueError('Invalid polynomial expression')
     result={}
     for term in re.findall(r'[+-]?[^+-]+',text):
         sign=-1 if term.startswith('-') else 1
         term=term.lstrip('+-'); coefficient=sign; exponents=[0]*len(names)
         for factor in term.split('*'):
             if re.fullmatch(r'\d+(?:/\d+)?',factor):
-                coefficient*=Fraction(factor) if rational else int(factor)
+                try:
+                    coefficient*=Fraction(factor) if rational else int(factor)
+                except ZeroDivisionError as error:
+                    raise ValueError('Invalid rational coefficient') from error
             else:
                 match=re.fullmatch(r'([UV]\d)(?:\^(\d+))?',factor)
                 if match is None or match[1] not in names: raise ValueError('Invalid monomial')

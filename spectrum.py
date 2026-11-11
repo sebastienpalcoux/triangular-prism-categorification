@@ -12,13 +12,21 @@ from fusion_ring import FusionRingError, validate_fusion_ring
 def evaluate_witness(N, indices, criterion, *, dual=None):
     """Evaluate every printed hypothesis directly, independently of pruning.
 
-    indices are [i1,...,i9] for zero, or [i0,i1,...,i9] for one. This function
-    assumes already validated fusion rules if dual is provided.
+    indices are [i1,...,i9] for zero, or [i0,i1,...,i9] for one. Fusion rules
+    are validated and an optional dual list is checked against those rules.
     """
+    actual_dual = validate_fusion_ring(N)['dual']
+    if dual is not None and (
+            not isinstance(dual, (list, tuple)) or
+            any(type(i) is not int for i in dual) or list(dual) != actual_dual):
+        raise FusionRingError('Supplied dual must agree with the fusion rules')
+    return _evaluate_witness(N, indices, criterion, actual_dual)
+
+
+def _evaluate_witness(N, indices, criterion, dual):
+    """Evaluate a witness after the tensor and its dual have been checked."""
     if criterion not in ('zero', 'one'):
         raise FusionRingError('criterion must be zero or one')
-    if dual is None:
-        dual = validate_fusion_ring(N)['dual']
     n = len(N)
     expected = 9 if criterion == 'zero' else 10
     if len(indices) != expected or any(type(i) is not int or not 0 <= i < n for i in indices):
@@ -121,7 +129,7 @@ def scan(N, criterion='both', mode='count', *, validate=True):
     for kind, indices in witnesses():
         counts[kind] += 1
         if first[kind] is None or mode == 'all':
-            record = evaluate_witness(N, indices, 'one' if kind else 'zero', dual=dual)
+            record = _evaluate_witness(N, indices, 'one' if kind else 'zero', dual)
             if not record['passes']:
                 raise RuntimeError('Search produced a witness that failed direct verification')
             details[kind].append(record)

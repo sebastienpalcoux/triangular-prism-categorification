@@ -5,7 +5,7 @@ JSON input is either the raw rank-by-rank-by-rank tensor, or an object with
 ``fusion_matrices`` and optional ``name``, ``labels``, ``dimensions``, and
 ``unit_index`` (which must be 0). Other metadata is retained. If supplied,
 ``dimensions`` is a positive rational dimension character, represented by
-integers or strings such as "3/2". Omit it for irrational dimensions.
+integers or exact strings such as "3". Omit it for irrational dimensions.
 It is not the potentially signed ``categorical_dimensions`` of localization.
 """
 from fractions import Fraction
@@ -84,7 +84,7 @@ def validate_fusion_ring(N, dimensions=None):
                         f'Dimension character fails at ({i}, {j})')
         normalized = [x.numerator if x.denominator == 1 else str(x) for x in d]
     return {'rank': n, 'dual': dual,
-            'commutative': all(N[i][j] == N[j][i] for i in I for j in I),
+            'commutative': all(N[i][j][k] == N[j][i][k] for i in I for j in I for k in I),
             'dimensions': normalized}
 
 
