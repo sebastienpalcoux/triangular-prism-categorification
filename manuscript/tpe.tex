@@ -44,9 +44,6 @@
 
 
 
-\definecolor{revisionorange}{RGB}{210,100,0}
-\newcommand{\rev}[1]{{\color{revisionorange}\ifmmode\boldsymbol{#1}\else\let\mdseries\bfseries\bfseries\boldmath\hypersetup{allcolors=revisionorange}#1\fi}}
-\pdfstringdefDisableCommands{\def\rev#1{#1}}
 
 \begin{document}
 
@@ -248,7 +245,7 @@ The geometric construction yields two general localization results in \S\ref{sec
 
 Second, two such choices $k\ne l$, with $l\in S'_k\cap S'_l$, satisfy the compatibility equation of Theorem~\ref{thm:locextra} when their coefficients come from compatible vertex bases in the same category. Separate local systems can therefore have solutions while their coupled system has none. For $\mathcal F_{210}$ this gives two systems of twelve equations in ten variables. Each has fourteen complex solutions, and the mixed prism rules out all $196$ pairs. This excludes categorification in characteristic zero.
 
-The zero- and one-spectrum criteria (Theorems~\ref{Thm: Ob-0} and~\ref{Thm: Ob-1}) use only the fusion coefficients. The \emph{spectrum} here is the set of simple labels \rev{allowed by the fusion rules on the three-factor side of a PE}. An empty spectrum or a single summand of multiplicity one can force a contradiction over any field, without pivotality or pseudo-unitarity. The first exclusions for both criteria occur in rank four (Proposition~\ref{prop:spectrum-rank}), and two nonintegral rank-six examples show that neither criterion implies the other (Proposition~\ref{prop:spectrum-incomparable}). The zero-spectrum criterion excludes $\mathcal F_{660}$ over every field. Its proof uses semisimplicity and leaves open realization as the Grothendieck ring of a nonsemisimple finite tensor category. Earlier examples of fusion rings excluded over every field are recorded in \cite[\S5.2]{LPRmult1}.
+The zero- and one-spectrum criteria (Theorems~\ref{Thm: Ob-0} and~\ref{Thm: Ob-1}) use only the fusion coefficients. The \emph{spectrum} here is the set of simple labels allowed by the fusion rules on the three-factor side of a PE. An empty spectrum or a single summand of multiplicity one can force a contradiction over any field, without pivotality or pseudo-unitarity. The first exclusions for both criteria occur in rank four (Proposition~\ref{prop:spectrum-rank}), and two nonintegral rank-six examples show that neither criterion implies the other (Proposition~\ref{prop:spectrum-incomparable}). The zero-spectrum criterion excludes $\mathcal F_{660}$ over every field. Its proof uses semisimplicity and leaves open realization as the Grothendieck ring of a nonsemisimple finite tensor category. Earlier examples of fusion rings excluded over every field are recorded in \cite[\S5.2]{LPRmult1}.
 
 The supplementary \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/GUIDE.md}{\texttt{GUIDE.md}} explains how to apply these criteria to other fusion rings, including localization's dimension input and coupling conventions. The \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/criteria.py}{Python interface} searches both spectrum criteria and constructs characteristic-zero localization systems with specified or symbolic categorical dimensions. A solution of a necessary subsystem alone does not establish categorifiability.
 
@@ -282,7 +279,7 @@ surviving fusion ring. Its enumeration input is the bounded census.
 
 The interpolated character rings of \cite{LPRinter} also suggest a constructive direction. We hope that the geometric equations and their localized systems will help construct a non-pointed simple integral fusion category outside the representation categories of finite groups. The present obstruction excludes one candidate from that family, while leaving this broader motivation intact. Remark~\ref{rk:504} discusses the next rank-$9$ test case and further localizations, together with an alternative approach through induction to the Drinfeld center.
 
-The TPE have already been used in the classification of multiplicity-free Grothendieck rings \cite[\S4.1]{LPRmult1}. \rev{The TPE also informed the multiplicity-free computations through rank seven underlying \cite{SliVer,gvfuscat,VS26,gjwiki}.} Together with the near-group construction discussed above, these applications illustrate that the geometric presentation is useful both for extracting obstructions and for organizing equations in construction problems.
+The TPE and small-spectrum criteria have contributed to the classification of multiplicity-free Grothendieck rings \cite[\S4.1]{LPRmult1} and the computations through rank seven reported in \cite{SliVer,gvfuscat,VS26,gjwiki}. Together with the near-group construction discussed above, these applications illustrate that the geometric presentation is useful both for extracting obstructions and for organizing equations in construction problems.
 
 \subsection*{Organization and verification}
 \S\S\ref{sec:pre}--\ref{sec:pre2} fix the duality, pivotal and trace conventions. \S\S4--5 develop the tetrahedral calculus and identify its coefficients with those of the associator. \S6 develops localization, and \S\ref{sec:app} applies the resulting obstructions.
@@ -2734,7 +2731,7 @@ $$
 
 \emph{Omit basis indices.} In the oriented calculus, suppose each nonzero
 vertex space is one-dimensional. Choose basis vectors at the external vertices.
-\rev{Each internal basis sum has at most one term. We set tetrahedral coefficients to zero when a vertex is inadmissible.} The symbol $\bullet$ denotes the chosen
+Each internal basis sum has at most one term. We set tetrahedral coefficients to zero when a vertex is inadmissible. The symbol $\bullet$ denotes the chosen
 vector or its dual for the evaluation pairing, in the indicated corner:
 $$
 \raisebox{-1.4cm}{
@@ -3729,7 +3726,7 @@ the odd-multiplicity hypothesis gives the same conclusion for $X_k$.
 Fix symmetric self-duality maps $\kappa_i$ as in Remark~\ref{rk:simplified},
 with $\kappa_1=\id_{\one}$, and use its unarrowed calculus throughout.
 
-At a vertex of type $(k,k,i)$, $i\in S_k$, \rev{normalize the vector at $(k,i,k)$ to pair with itself to $1$, and use its cyclic transports with the marked corners.} For $i,b,c\in S_k$, let $\beta$
+At a vertex of type $(k,k,i)$, $i\in S_k$, normalize the vector at $(k,i,k)$ to pair with itself to $1$, and use its cyclic transports with the marked corners. For $i,b,c\in S_k$, let $\beta$
 run through a basis $B$ of $\hc(\one,X_b\otimes X_i\otimes X_c)$,
 with dual vector $\beta'$. Define
 \[
@@ -4766,14 +4763,14 @@ The proof uses semisimplicity when it resolves tensor products into simples. The
 \medskip
 \noindent\textbf{Data availability.} The computational supplement is available at
 \url{https://github.com/sebastienpalcoux/triangular-prism-categorification}.
-The version accompanying this article is \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/commit/f816c697fde088b261e1fe1ce703980e5dbdab51}{\rev{commit \texttt{f816c69}}}. The proof of the minimum-rank assertion in Proposition~\ref{prop:spectrum-rank} and its independent finite check are in \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/SPECTRUM_RANK.md}{\texttt{SPECTRUM\_RANK.md}} and \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/verify_spectrum_rank.py}{\texttt{verify\_spectrum\_rank.py}}.
+The version accompanying this article is \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/commit/f816c697fde088b261e1fe1ce703980e5dbdab51}{commit \texttt{f816c69}}. The proof of the minimum-rank assertion in Proposition~\ref{prop:spectrum-rank} and its independent finite check are in \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/SPECTRUM_RANK.md}{\texttt{SPECTRUM\_RANK.md}} and \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/verify_spectrum_rank.py}{\texttt{verify\_spectrum\_rank.py}}.
 The reader's guide, \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/GUIDE.md}{\texttt{GUIDE.md}}, explains how to supply another fusion ring, apply the zero- and one-spectrum criteria, and generate localization systems with explicit or symbolic categorical dimensions and the required additional data. The general entry point is \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/criteria.py}{\texttt{criteria.py}}. The exact characteristic-zero certificate for $\mathcal F_{210}$ is explained in \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/CERTIFICATE.md}{\texttt{CERTIFICATE.md}} and checked by \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/verify_f210.py}{\texttt{verify\_f210.py}}. The entry point \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/verify.py}{\texttt{verify.py}} checks the worked applications, including the fusion tensors, character table, positive-characteristic identities, index tuples for the spectrum criteria, and stated census exclusions. Verification and equation generation use Python's standard library. The guide also describes \href{https://github.com/sebastienpalcoux/triangular-prism-categorification/blob/f816c697fde088b261e1fe1ce703980e5dbdab51/GUIDE.md#5-scope-of-the-certificates-and-optional-regeneration}{optional certificate and group-data regeneration}.
 
 \medskip
 \begin{ac}
 The authors thank Yilong Wang and Tinhinane A.~Azzouz for valuable discussions, and the referees for comments that improved the presentation and the verification of the results. Zhengwei Liu acknowledges support from the Beijing Natural Science Foundation Key Program (Grant Z220002) and the Beijing Natural Science Foundation (Grant Z221100002722017). Sebastien Palcoux acknowledges support from the National Natural Science Foundation of China (Grant 12471031).
 
-\rev{The main results of this version were obtained without AI assistance and appeared in the \href{https://arxiv.org/abs/2203.06522v1}{first preprint in 2022}. AI was used only to prepare this revision, which the authors have checked in full.}
+The main results of this version were obtained without AI assistance and appeared in the \href{https://arxiv.org/abs/2203.06522v1}{first preprint in 2022}. AI was used only to prepare this revision, which the authors have checked in full.
 \end{ac}
 
 \raggedbottom
